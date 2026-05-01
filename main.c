@@ -1,0 +1,50 @@
+#include <raylib.h>
+#include <stdlib.h>
+
+#define WIDTH 16
+#define HEIGHT 9
+#define SCREEN_SCALE 50
+#define VELOCITY_SCALE 10
+#define BALL_SIZE SCREEN_SCALE * 1
+
+int main(void) {
+
+  const int s_width = WIDTH * SCREEN_SCALE;
+  const int s_height = HEIGHT * SCREEN_SCALE;
+
+  SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+
+  InitWindow(s_width, s_height, "Simple bouncing ball");
+
+  Vector2 ball = {(float)GetScreenWidth() / 2.0f,
+                  (float)GetScreenHeight() / 2.0f};
+
+  Vector2 velocity = {VELOCITY_SCALE, VELOCITY_SCALE};
+
+  SetTargetFPS(60);
+
+  while (!WindowShouldClose()) {
+
+    if ((ball.x + velocity.x >= (GetScreenWidth() - BALL_SIZE)) ||
+        (ball.x + velocity.x <= BALL_SIZE))
+      velocity.x *= -1.0f;
+    else
+      ball.x += velocity.x;
+
+    if ((ball.y + velocity.y >= (GetScreenHeight() - BALL_SIZE)) ||
+        (ball.y + velocity.y <= BALL_SIZE))
+      velocity.y *= -1.0f;
+    else
+      ball.y += velocity.y;
+
+    BeginDrawing();
+
+    ClearBackground(LIGHTGRAY);
+
+    DrawCircleV(ball, BALL_SIZE, BLUE);
+
+    EndDrawing();
+  }
+
+  return EXIT_SUCCESS;
+}

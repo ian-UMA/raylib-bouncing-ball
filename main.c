@@ -9,8 +9,8 @@
 
 int main(void) {
 
-  const int s_width = WIDTH * SCREEN_SCALE;
-  const int s_height = HEIGHT * SCREEN_SCALE;
+  int s_width = WIDTH * SCREEN_SCALE;
+  int s_height = HEIGHT * SCREEN_SCALE;
 
   SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
@@ -25,17 +25,44 @@ int main(void) {
 
   while (!WindowShouldClose()) {
 
-    if ((ball.x + velocity.x >= (GetScreenWidth() - BALL_SIZE)) ||
-        (ball.x + velocity.x <= BALL_SIZE))
-      velocity.x *= -1.0f;
-    else
-      ball.x += velocity.x;
+    s_width = GetScreenWidth();
+    s_height = GetScreenHeight();
 
-    if ((ball.y + velocity.y >= (GetScreenHeight() - BALL_SIZE)) ||
-        (ball.y + velocity.y <= BALL_SIZE))
+    // right
+    if (ball.x + velocity.x >= s_width - BALL_SIZE) {
+      ball.x = s_width - BALL_SIZE;
+      velocity.x *= -1.0f;
+      ball.x += velocity.x;
+    } else {
+      ball.x += velocity.x;
+    }
+
+    // left
+    if (ball.x + velocity.x <= BALL_SIZE) {
+      ball.x = BALL_SIZE;
+      velocity.x *= -1.0f;
+      ball.x += velocity.x;
+    } else {
+      ball.x += velocity.x;
+    }
+
+    // down
+    if (ball.y + velocity.y >= s_height - BALL_SIZE) {
+      ball.y = s_height - BALL_SIZE;
       velocity.y *= -1.0f;
-    else
       ball.y += velocity.y;
+    } else {
+      ball.y += velocity.y;
+    }
+
+    // up
+    if (ball.y + velocity.y <= BALL_SIZE) {
+      ball.y = BALL_SIZE;
+      velocity.y *= -1.0f;
+      ball.y += velocity.y;
+    } else {
+      ball.y += velocity.y;
+    }
 
     BeginDrawing();
 

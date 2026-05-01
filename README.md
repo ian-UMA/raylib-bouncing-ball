@@ -16,3 +16,5 @@ this will create an executable called `bounce`
 ```shell
 ./bounce
 ```
+### Building for other systems:
+Its a single file, just use any `C` compiler.
